@@ -78,7 +78,8 @@ vars:
     project: "your_gcp_project"
     dataset: "your_ga4_dataset"
     start_date: "YYYYMMDD" # Earliest date to load
-    frequency: "daily" # daily|streaming|daily+streaming Match to the type of export configured in GA4; daily+streaming appends today's intraday data to daily data
+    frequency: "daily" # daily|streaming|daily+streaming Match to the type of export configured in GA4; daily+streaming
+     appends today's intraday data to daily data
 ```
 
 If you don't have any GA4 data of your own, you can connect to Google's public data set with the following settings:
@@ -96,7 +97,9 @@ More info about the GA4 obfuscated dataset here: https://support.google.com/anal
 
 ### Query Parameter Exclusions
 
-Setting `query_parameter_exclusions` will remove query string parameters from the `page_location` and `page_referrer` fields for all downstream processing. Original parameters are captured in the `original_page_location` and `original_page_referrer` fields. Ex:
+Setting `query_parameter_exclusions` will remove query string parameters from the `page_location` 
+and `page_referrer` fields for all downstream processing. Original parameters are captured in the `original_page_location`
+ and `original_page_referrer` fields. Ex:
 
 ```
 vars:
