@@ -16,7 +16,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # The following variables should be set in the project that loads this package. 
 vars:
    project: "polestartrial"
-   dataset: "Demo"
+   dataset: "demo"
    start_date: "20221201" # Defines the earliest GA4 event _TABLE_SUFFIX to load into base events model.
    frequency: "daily" # daily|streaming defaults to daily. If you only use the streaming export, use this setting to only get the streaming data.
 
