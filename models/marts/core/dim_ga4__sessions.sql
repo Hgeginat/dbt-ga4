@@ -2,6 +2,8 @@
 with session_start_dims as (
     select 
         session_key,
+        user_pseudo_id,
+        event_date_dt as date,
         page_location as landing_page,
         page_hostname as landing_page_hostname,
         page_referrer as landing_page_referrer,

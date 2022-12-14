@@ -27,6 +27,7 @@ with items_with_params as (
         i.promotion_id,
         i.promotion_name,
         i.creative_name,
+        
         i.creative_slot
     from {{ref('stg_ga4__events')}},
         unnest(items) as i
