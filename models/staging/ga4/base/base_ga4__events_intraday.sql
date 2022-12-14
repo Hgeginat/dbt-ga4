@@ -89,11 +89,6 @@ renamed as (
         platform,
         ecommerce,
         items,
-         -- Helena trial
-        {{ ga4.unnest_key('user_properties', 'polestar_market') }},
-        {{ ga4.unnest_key('user_properties', 'logged_in') }},
-        {{ ga4.unnest_key('user_properties', 'is_paired') }},
-        -- Helena end
         {{ ga4.unnest_key('event_params', 'ga_session_id', 'int_value') }},
         {{ ga4.unnest_key('event_params', 'page_location') }},
         {{ ga4.unnest_key('event_params', 'ga_session_number',  'int_value') }},
@@ -104,7 +99,7 @@ renamed as (
         {{ ga4.unnest_key('event_params', 'source') }},
         {{ ga4.unnest_key('event_params', 'medium') }},
         {{ ga4.unnest_key('event_params', 'campaign') }},
-        {{ ga4.unnest_key('event_params', 'content_type') }},
+        {{ ga4.unnest_key('event_params', 'content') }},
         {{ ga4.unnest_key('event_params', 'term') }},
         CASE 
             WHEN event_name = 'page_view' THEN 1
