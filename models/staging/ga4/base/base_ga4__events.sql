@@ -134,7 +134,7 @@ renamed as (
         {{ ga4.unnest_key('event_params', 'source') }},
         {{ ga4.unnest_key('event_params', 'medium') }},
         {{ ga4.unnest_key('event_params', 'campaign') }},
-        {{ ga4.unnest_key('event_params', 'content_type') }},
+        {{ ga4.unnest_key('event_params', 'content') }},
         {{ ga4.unnest_key('event_params', 'term') }},
         CASE 
             WHEN event_name = 'page_view' THEN 1
