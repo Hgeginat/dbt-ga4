@@ -124,6 +124,11 @@ renamed as (
         platform,
         ecommerce,
         items,
+        -- Helena trial
+        {{ ga4.unnest_key('user_properties', 'polestar_market') }},
+        {{ ga4.unnest_key('user_properties', 'logged_in') }},
+        {{ ga4.unnest_key('user_properties', 'is_paired') }},
+        -- Helena end
         {{ ga4.unnest_key('event_params', 'ga_session_id', 'int_value') }},
         {{ ga4.unnest_key('event_params', 'page_location') }},
         {{ ga4.unnest_key('event_params', 'ga_session_number',  'int_value') }},
