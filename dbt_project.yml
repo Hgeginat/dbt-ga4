@@ -49,6 +49,9 @@ vars:
      - event_parameter: "engagement_time_msec"
        session_property_name: "engagement_time_msec"
        value_type: "int_value"
+     - event_parameter: "item_id"
+       session_property_name: "item_id"
+       value_type: "string_value"
 
 
 # Custom parameters

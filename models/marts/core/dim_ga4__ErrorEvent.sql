@@ -20,6 +20,7 @@ include_user_properties as (
 include_derived_session_properties as (
     select 
         include_user_properties.*,
+        session_properties.item_id,
         session_properties.item_category,
         session_properties.session_engaged,
         session_properties.engagement_time_msec,
@@ -30,17 +31,17 @@ include_derived_session_properties as (
     left join {{ref('stg_ga4__derived_session_properties')}} as session_properties using (session_key)
     {% endif %}
 ),
-grouped_app_events as (
+grouped_error_events as (
     select 
-        event_name,
-        content_type,
+        item_id,
         event_date_dt,
         polestar_market,
         count(distinct user_pseudo_id) as active_user_count
     from include_derived_session_properties 
     where item_category = 'App:carcontrol'
+        and content_type = 'error_event'
         and (session_engaged = 1 or engagement_time_msec > 0)
-    group by event_name, content_type, event_date_dt, polestar_market
+    group by item_id, event_date_dt, polestar_market
 )
 
-select * from grouped_app_events
+select * from grouped_error_events
