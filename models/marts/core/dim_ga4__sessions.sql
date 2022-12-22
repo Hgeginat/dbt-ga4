@@ -2,6 +2,7 @@
 with session_start_dims as (
     select 
         session_key,
+        user_key,
         user_pseudo_id,
         event_date_dt as date,
         page_location as landing_page,
@@ -56,6 +57,19 @@ include_session_properties as (
     -- If derived session properties have been assigned as variables, join them on the session_key
     left join {{ref('stg_ga4__derived_session_properties')}} using (session_key)
     {% endif %}
+),
+include_user_properties as (
+    select 
+        include_session_properties.*,
+        user_properties.logged_in,
+        user_properties.is_paired,
+        user_properties.polestar_market,
+        user_properties.first_open_time
+    from include_session_properties
+    {% if var('user_properties', false) %}
+    -- If user properties have been assigned as variables, join them on the user_key
+    left join {{ref('stg_ga4__user_properties')}} as user_properties using (user_key)
+    {% endif %}
 )
 
-select * from include_session_properties
+select * from include_user_properties

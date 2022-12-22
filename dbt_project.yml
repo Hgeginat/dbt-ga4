@@ -26,14 +26,30 @@ vars:
 
 # User Properties
 # User-scoped event properties can be assigned using the following variable configuration in your dbt_project.yml
-The dim_ga4__users dimension table will be updated to include the last value seen for each user
-     user_properties:
-      #  - event_parameter: "page_location"
-      #    user_property_name: "most_recent_page_location"  
-      #    value_type: "string_value"
-      # - event_parameter: "ga_session_id"
-      #  user_property_name: "polestar_market"  
-      #  value_type: "string_value"
+#The dim_ga4__users dimension table will be updated to include the last value seen for each user
+   user_properties:
+     - user_property_name: "logged_in"
+       value_type: "string_value"
+     - user_property_name: "is_paired"
+       value_type: "string_value"
+     - user_property_name: "polestar_market"
+       value_type: "string_value"
+     - user_property_name: "first_open_time"
+       value_type: "int_value"
+   derived_session_properties:
+     - event_parameter: "item_category"
+       session_property_name: "item_category"
+       value_type: "string_value"
+     - event_parameter: "content_type"
+       session_property_name: "content_type"
+       value_type: "string_value"
+     - event_parameter: "session_engaged"
+       session_property_name: "session_engaged"
+       value_type: "int_value"
+     - event_parameter: "engagement_time_msec"
+       session_property_name: "engagement_time_msec"
+       value_type: "int_value"
+
 
 # Custom parameters
 # custom parameters are registered by creating a var matching the event name where the custom parameter occurs
