@@ -52,6 +52,9 @@ vars:
      - event_parameter: "item_id"
        session_property_name: "item_id"
        value_type: "string_value"
+     - event_parameter: "name"
+       session_property_name: "name"
+       value_type: "string_value" 
 
 
 # Custom parameters

@@ -4,7 +4,8 @@ with events_base as (
         event_date_dt,
         user_pseudo_id,
         user_key,
-        session_key
+        session_key,
+        traffic_source_medium
     from {{ref('stg_ga4__events')}}
 ),
 include_user_properties as (
@@ -23,25 +24,26 @@ include_derived_session_properties as (
         session_properties.item_category,
         session_properties.session_engaged,
         session_properties.engagement_time_msec,
-        session_properties.content_type
+        session_properties.name
     from include_user_properties
     {% if var('derived_session_properties', false) %}
     -- If derived user properties have been assigned as variables, join them on the user_key
     left join {{ref('stg_ga4__derived_session_properties')}} as session_properties using (session_key)
     {% endif %}
 ),
-grouped_app_events as (
+micro_moments as (
     select 
-        event_name,
-        {{ga4.car_control_category('content_type')}} as car_control_category,
         event_date_dt,
         polestar_market,
+        traffic_source_medium,
+        CASE WHEN name like 'App:Post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30) END as micro_moment_name,
         count(distinct user_pseudo_id) as active_user_count,
         count(*) as session_count
     from include_derived_session_properties 
-    where item_category = 'App:carcontrol'
+    where event_name = 'screen_name' 
+        and name like 'App:Post:%'
         and (session_engaged = 1 or engagement_time_msec > 0)
-    group by event_name, content_type, event_date_dt, polestar_market, car_control_category
+    group by event_date_dt, polestar_market, traffic_source_medium, micro_moment_name
 )
 
-select * from grouped_app_events 
+select * from micro_moments

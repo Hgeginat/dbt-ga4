@@ -34,14 +34,16 @@ include_derived_session_properties as (
 grouped_error_events as (
     select 
         item_id,
+        {{ga4.error_event_category('item_id')}} as error_event_category,
         event_date_dt,
         polestar_market,
-        count(distinct user_pseudo_id) as active_user_count
+        count(distinct user_pseudo_id) as active_user_count,
+        count(*) as error_count
     from include_derived_session_properties 
     where item_category = 'App:carcontrol'
         and content_type = 'error_event'
         and (session_engaged = 1 or engagement_time_msec > 0)
-    group by item_id, event_date_dt, polestar_market
+    group by item_id, error_event_category, event_date_dt, polestar_market
 )
 
 select * from grouped_error_events
