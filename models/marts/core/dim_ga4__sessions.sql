@@ -1,7 +1,7 @@
 -- Dimension table for sessions based on the session_start event.
 with session_start_dims as (
     select 
-        concat(user_pseudo_id,ga_session_id),
+        concat(user_pseudo_id,ga_session_id) idsession,
         session_key,
         user_key,
         user_pseudo_id,
