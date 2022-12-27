@@ -3,11 +3,13 @@ with group1 as (
         event_date_dt as date,
         session_key as session_key,
         user_key as user_key,
+        event_name as event_name,
         (engagement_time_msec)/1000 as engagement_time_sec,
-        event_name as event_name
+        
+
     from {{ref('stg_ga4__events')}} 
-    -- group by 1,2,3
-    -- group by 1,2,3,4,5
+   
+    group by 1,2,3,4,5
 ),
 
 include_user_properties_market as (
