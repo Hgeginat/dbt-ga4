@@ -4,8 +4,7 @@ with group1 as (
         session_key as session_key,
         user_key as user_key,
         event_name as event_name,
-        (engagement_time_msec)/1000 as engagement_time_sec,
-        
+        (engagement_time_msec)/1000 as engagement_time_sec
 
     from {{ref('stg_ga4__events')}} 
    
@@ -49,7 +48,11 @@ session_key,
 ga_session_id,
 event_name,
 session_eng,
-engagement_time_sec
+engagement_time_sec,
+ROW_NUMBER() over(partition by date,
+                                session_key,
+                                user_key
+        order by date) AS DuplicateCount
  from include_engagement
 
 -- select * from include_engagement
