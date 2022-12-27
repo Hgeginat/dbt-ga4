@@ -3,9 +3,11 @@ with group1 as (
         event_date_dt as date,
         session_key as session_key,
         user_key as user_key,
-        avg((engagement_time_msec))/1000 as engagement_time_sec
-    from {{ref('stg_ga4__events')}}
-    group by 1,2,3
+        (engagement_time_msec)/1000 as engagement_time_sec,
+        event_name as event_name
+    from {{ref('stg_ga4__events')}} 
+    -- group by 1,2,3
+    -- group by 1,2,3,4,5
 ),
 
 include_user_properties_market as (
@@ -29,6 +31,7 @@ include_engagement as (
     select
     include_user_pseudo_ids.*,
     session_identifyer.session_engaged as session_eng,
+    session_identifyer.ga_session_id as ga_session_id,
     from include_user_pseudo_ids
     left join {{ref('dim_ga4__sessions')}} as session_identifyer using (session_key)
 
@@ -41,9 +44,13 @@ polestar_market,
 user_pseudo_id,
 user_key,
 session_key,
+ga_session_id,
+event_name,
 session_eng,
 engagement_time_sec
  from include_engagement
+
+-- select * from include_engagement
 
 
  
