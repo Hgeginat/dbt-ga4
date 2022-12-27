@@ -1,8 +1,8 @@
 with group1 as (
     select 
         event_date_dt as date,
-        user_key,
         session_key as Session_id,
+        user_key
     from {{ref('stg_ga4__events')}}
     group by 1,2,3
 ),
