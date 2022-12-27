@@ -13,7 +13,6 @@ with users as (
     from {{ref('stg_ga4__events')}}
     where user_key is not null -- Remove users with privacy settings enabled
     group by 1
-
 ),
 include_first_last_events as (
     select 
