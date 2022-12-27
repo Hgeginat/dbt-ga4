@@ -50,8 +50,14 @@ event_name,
 session_eng,
 engagement_time_sec,
 ROW_NUMBER() over(partition by date,
+                                polestar_market,
+                                user_pseudo_id,
+                                user_key,
                                 session_key,
-                                user_key
+                                user_key,
+                                ga_session_id,
+                                event_name,
+                                session_eng
         order by date) AS DuplicateCount
  from include_engagement
 
