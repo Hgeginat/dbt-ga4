@@ -2,7 +2,8 @@ with group1 as (
     select 
         event_date_dt as date,
         user_key,
-        count(distinct session_key) as num_sessions,
+        count(distinct concat(session_key,ga_session_id)) as num_sessions
+
     from {{ref('stg_ga4__event_session_start')}}
     group by 1,2
 ),
