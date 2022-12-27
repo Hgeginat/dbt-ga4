@@ -3,7 +3,7 @@ with group1 as (
         event_date_dt as date,
         session_key as session_key,
         user_key as user_key,
-
+        max(engagement_time_msec)/1000 as engagement_time_sec
     from {{ref('stg_ga4__events')}}
     group by 1,2,3
 ),
@@ -29,7 +29,6 @@ include_engagement as (
     select
     include_user_pseudo_ids.*,
     session_identifyer.session_engaged as session_eng,
-    session_identifyer.engagement_time_msec as session_eng_time
     from include_user_pseudo_ids
     left join {{ref('dim_ga4__sessions')}} as session_identifyer using (session_key)
 
@@ -43,7 +42,7 @@ user_pseudo_id,
 user_key,
 session_key,
 session_eng,
-session_eng_time
+engagement_time_sec
  from include_engagement
 
 
