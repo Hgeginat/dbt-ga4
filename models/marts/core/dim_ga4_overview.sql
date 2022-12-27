@@ -3,7 +3,7 @@ with group1 as (
         event_date_dt as date,
         user_key,
         count(distinct session_key) as num_sessions,
-    from {{ref('stg_ga4__events')}}
+    from {{ref('stg_ga4__event_session_start')}}
     group by 1,2
 ),
 
