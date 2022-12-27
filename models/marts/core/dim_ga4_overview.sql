@@ -2,7 +2,7 @@ with group1 as (
     select 
         event_date_dt as date,
         session_key as session_key,
-        user_key as user_key
+        user_key as user_key,
 
     from {{ref('stg_ga4__events')}}
     group by 1,2,3
@@ -24,15 +24,27 @@ include_user_pseudo_ids as (
     include_user_properties_market.*,
     from include_user_properties_market
     left join {{ref('dim_ga4__sessions')}} as user_pseudo using (user_key)
+),
+include_engagement as (
+    select
+    include_user_pseudo_ids.*,
+    session_identifyer.session_engaged as session_eng,
+    session_identifyer.engagement_time_msec as session_eng_time
+    from include_user_pseudo_ids
+    left join {{ref('dim_ga4__sessions')}} as session_identifyer using (session_key)
+
 )
+
      
 select 
 date,
 polestar_market,
 user_pseudo_id,
 user_key,
-session_key
- from include_user_pseudo_ids
+session_key,
+session_eng,
+session_eng_time
+ from include_engagement
 
 
  
