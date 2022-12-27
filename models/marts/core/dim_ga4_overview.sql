@@ -1,10 +1,10 @@
 with group1 as (
     select 
         event_date_dt as date,
-        session_key as Session_id,
-        user_key
+        user_key,
+        count(distinct session_key) as nb_sessions,
     from {{ref('stg_ga4__events')}}
-    group by 1,2,3
+    group by 1,2
 ),
 
 include_user_properties_market as (
