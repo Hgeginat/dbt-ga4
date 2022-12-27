@@ -4,11 +4,11 @@ with group1 as (
         session_key as session_key,
         user_key as user_key,
         event_name as event_name,
-        (engagement_time_msec)/1000 as engagement_time_sec
+        Max((engagement_time_msec))/1000 as engagement_time_sec
 
     from {{ref('stg_ga4__events')}} 
    
-    group by 1,2,3,4,5
+    group by 1,2,3,4
 ),
 
 include_user_properties_market as (
@@ -50,6 +50,7 @@ event_name,
 session_eng,
 engagement_time_sec,
 ROW_NUMBER() over(partition by date,
+                                CAST(engagement_time_sec as STRING),
                                 polestar_market,
                                 user_pseudo_id,
                                 user_key,
@@ -58,6 +59,7 @@ ROW_NUMBER() over(partition by date,
                                 ga_session_id,
                                 event_name,
                                 session_eng
+                                
         order by date) AS DuplicateCount
  from include_engagement
 
