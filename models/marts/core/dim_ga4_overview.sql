@@ -3,7 +3,7 @@ with group1 as (
         event_date_dt as date,
         session_key as session_key,
         user_key as user_key,
-        max(engagement_time_msec)/1000 as engagement_time_sec
+        avg((engagement_time_msec))/1000 as engagement_time_sec
     from {{ref('stg_ga4__events')}}
     group by 1,2,3
 ),
