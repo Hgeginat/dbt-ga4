@@ -36,6 +36,7 @@ with session_start_dims as (
         traffic_source_medium,
         traffic_source_source,
         ga_session_id,
+        ga_session_number,
     from {{ref('stg_ga4__sessions_first_session_start_event')}}
 ),
 join_traffic_source as (
