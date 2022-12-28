@@ -14,7 +14,9 @@ with group1 as (
 include_user_properties_market as (
     select
      group1.*,
-     user_properties.polestar_market
+     user_properties.polestar_market,
+     user_properties.logged_in,
+     user_properties.is_paired
      from group1
      {% if var('user_properties', false) %}
     -- If user properties have been assigned as variables, join them on the user_key
@@ -49,6 +51,8 @@ ga_session_id,
 event_name,
 session_eng,
 engagement_time_sec,
+logged_in,
+is_paired,
 ROW_NUMBER() over(partition by date,
                                 CAST(engagement_time_sec as STRING),
                                 polestar_market,
@@ -58,7 +62,9 @@ ROW_NUMBER() over(partition by date,
                                 user_key,
                                 ga_session_id,
                                 event_name,
-                                session_eng
+                                session_eng,
+                                logged_in,
+                                is_paired
                                 
         order by date) AS DuplicateCount
  from include_engagement
