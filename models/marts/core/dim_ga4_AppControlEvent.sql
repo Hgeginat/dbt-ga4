@@ -33,6 +33,7 @@ include_derived_session_properties as (
 grouped_app_events as (
     select 
         event_name,
+        content_type,
         {{ga4.car_control_category('content_type')}} as car_control_category,
         event_date_dt,
         polestar_market,
