@@ -65,8 +65,6 @@ unduplicate as (
             order by date) AS DuplicateCount
     from include_engagement
 )
-     
-
 
 select * from unduplicate
 

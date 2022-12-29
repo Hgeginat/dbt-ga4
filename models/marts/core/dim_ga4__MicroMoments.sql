@@ -21,7 +21,6 @@ include_user_properties as (
 include_derived_session_properties as (
     select 
         include_user_properties.*,
-        session_properties.item_category,
         session_properties.session_engaged,
         session_properties.engagement_time_msec,
         session_properties.name
@@ -36,14 +35,15 @@ micro_moments as (
         event_date_dt,
         polestar_market,
         traffic_source_medium,
-        CASE WHEN name like 'App:Post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30) END as micro_moment_name,
-        count(distinct user_pseudo_id) as active_user_count,
-        count(*) as session_count
+        CASE WHEN name like 'App:Post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30)
+            WHEN name like 'App:post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30) 
+            end as micro_moment_name,
+        case when (session_engaged = 1 or engagement_time_msec > 0) then user_key else null end as active_user_key,
+        user_key,
+        session_key
     from include_derived_session_properties 
-    where event_name = 'screen_name' 
-        and name like 'App:Post:%'
-        and (session_engaged = 1 or engagement_time_msec > 0)
-    group by event_date_dt, polestar_market, traffic_source_medium, micro_moment_name
+    where (name like 'App:Post:%' or name like 'App:post:%') and
+    event_name = 'screen_name'
 )
 
 select * from micro_moments

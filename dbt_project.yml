@@ -36,6 +36,16 @@ vars:
        value_type: "string_value"
      - user_property_name: "first_open_time"
        value_type: "int_value"
+   derived_user_properties:
+     - event_parameter: "session_engaged"
+       user_property_name: "session_engaged"
+       value_type: "int_value"
+     - event_parameter: "engagement_time_msec"
+       user_property_name: "engagement_time_msec"
+       value_type: "int_value"
+     - event_parameter: "name"
+       user_property_name: "name"
+       value_type: "string_value"
    derived_session_properties:
      - event_parameter: "item_category"
        session_property_name: "item_category"
@@ -55,6 +65,7 @@ vars:
      - event_parameter: "name"
        session_property_name: "name"
        value_type: "string_value" 
+      
 
 
 # Custom parameters
