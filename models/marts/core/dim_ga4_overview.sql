@@ -35,6 +35,7 @@ include_engagement as (
     include_user_pseudo_ids.*,
     session_identifyer.session_engaged as session_eng,
     session_identifyer.ga_session_id as ga_session_id,
+    session_identifyer.ga_session_number as ga_session_number,
     from include_user_pseudo_ids
     left join {{ref('dim_ga4__sessions')}} as session_identifyer using (session_key)
 
@@ -48,6 +49,7 @@ user_pseudo_id,
 user_key,
 session_key,
 ga_session_id,
+ga_session_number,
 event_name,
 session_eng,
 engagement_time_sec,
@@ -61,6 +63,7 @@ ROW_NUMBER() over(partition by date,
                                 session_key,
                                 user_key,
                                 ga_session_id,
+                                ga_session_number,
                                 event_name,
                                 session_eng,
                                 logged_in,
