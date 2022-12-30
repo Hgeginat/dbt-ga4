@@ -39,7 +39,7 @@ micro_moments as (
         stream_id, 
         user_pseudo_id,
         session_key,
-        name
+        name,
         polestar_market,
         traffic_source_medium,
       (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,  
