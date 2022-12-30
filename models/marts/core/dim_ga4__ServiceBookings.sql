@@ -32,7 +32,7 @@ service_bookings as (
         user_key,
         session_key
     from include_derived_session_properties 
-    where LOWER(item_category) like 'app:you:polestarid:servicebooking'
+    where LOWER(item_category) like 'app:you:polestarid:servicebooking' 
 )
 
 select * from service_bookings
