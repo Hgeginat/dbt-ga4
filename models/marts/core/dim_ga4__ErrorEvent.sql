@@ -45,4 +45,4 @@ error_events as (
         and content_type = 'error_event'
 )
 
-select * from grouped_error_events
+select * from error_events
