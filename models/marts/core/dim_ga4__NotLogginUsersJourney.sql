@@ -7,8 +7,7 @@ with screen_name_events2 as (
         user_pseudo_id,
         session_key,
         (select value.string_value from unnest(event_params) where key = 'item_category') as item_category,
-        (select value.string_value from unnest(event_params) where key = 'content_type') as content_type,
-        
+        (select value.string_value from unnest(event_params) where key = 'content_type') as content_type
     from {{ref('stg_ga4__events')}}
     where event_name = 'select_content'
 ),
@@ -48,7 +47,7 @@ Journey as (
         polestar_market,
         logged_in,
         is_paired,
-      (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,  
+      (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key
     
     from include_derived_session_properties2
     where logged_in in ('false','null')
