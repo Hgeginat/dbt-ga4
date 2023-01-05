@@ -14,7 +14,10 @@ with screen_name_events as (
 include_user_properties as (
     select 
         screen_name_events.*,
-        user_properties.polestar_market
+        user_properties.polestar_market,
+        user_properties.logged_in,
+        user_properties.is_paired
+
     from screen_name_events
     {% if var('user_properties', false) %}
     -- If user properties have been assigned as variables, join them on the user_key
