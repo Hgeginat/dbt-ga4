@@ -44,6 +44,8 @@ micro_moments as (
         session_key,
         name,
         polestar_market,
+        logged_in,
+        is_paired,
         traffic_source_medium,
       (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,  
       CASE WHEN name like 'App:Post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30)
