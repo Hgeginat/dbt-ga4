@@ -21,7 +21,7 @@ session_key_added as (
     select 
         screen_name_events.*,
         to_base64(md5(CONCAT(stream_id, user_pseudo_id, CAST(ga_session_id as STRING)))) as session_key,
-        (case when engagement_time_msec > 0 or engaged_session_event = 1 then user_pseudo_id else null end) as active_user_key
+        (case when (engagement_time_msec > 0 or engaged_session_event IS NOT NULL) then user_pseudo_id else null end) as active_user_key
         from screen_name_events
 ),
 
@@ -38,6 +38,8 @@ micro_moments as (
         is_paired,
         traffic_source_medium,
         active_user_key,
+        engagement_time_msec,
+        engaged_session_event,
       CASE WHEN name like 'App:Post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30)
            WHEN name like 'App:post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30)
       END as micro_moment_name
