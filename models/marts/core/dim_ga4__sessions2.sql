@@ -4,6 +4,7 @@ with session_base as (
         event_date_dt,
         user_pseudo_id,
         stream_id,
+        engagement_time_msec,
         (select value.int_value from unnest(event_params) where key = 'engaged_session_event') as engaged_session_event,
         (select value.int_value from unnest(event_params) where key = 'ga_session_id') as ga_session_id,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
