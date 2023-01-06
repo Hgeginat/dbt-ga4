@@ -7,6 +7,7 @@ with users_base as (
         engagement_time_msec,
         (select value.int_value from unnest(event_params) where key = 'engaged_session_event') as engaged_session_event,
         (select value.int_value from unnest(event_params) where key = 'ga_session_id') as ga_session_id,
+        (select value.int_value from unnest(event_params) where key = 'ga_session_number') as ga_session_number,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired
@@ -31,6 +32,7 @@ final_table as (
         active_user_key,
         session_key,
         ga_session_id,
+        ga_session_number,
         polestar_market,
         logged_in,
         is_paired
