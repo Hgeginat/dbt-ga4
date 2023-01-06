@@ -27,6 +27,7 @@ final_table as (
     select
         event_date_dt,
         user_pseudo_id,
+        active_user_key,
         polestar_market,
         logged_in,
         is_paired
