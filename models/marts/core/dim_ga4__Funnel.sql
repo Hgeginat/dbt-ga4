@@ -13,6 +13,7 @@ with users_base as (
         
 
     from {{ref('stg_ga4__events')}}
+    
     ),
 
 session_key_added as (
@@ -28,9 +29,12 @@ final_table as (
         event_date_dt,
         user_pseudo_id,
         active_user_key,
+        session_key,
+        ga_session_id,
         polestar_market,
         logged_in,
         is_paired
     from session_key_added)
+   
 
 select * from final_table
