@@ -7,29 +7,20 @@ with screen_name_events2 as (
         user_pseudo_id,
         session_key,
         (select value.string_value from unnest(event_params) where key = 'item_category') as item_category,
-        (select value.string_value from unnest(event_params) where key = 'content_type') as content_type
+        (select value.string_value from unnest(event_params) where key = 'content_type') as content_type,
+        (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
+        (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
+        (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired
     from {{ref('stg_ga4__events')}}
     where event_name = 'select_content'
 ),
-include_user_properties2 as (
-    select 
-        screen_name_events2.*,
-        user_properties.polestar_market,
-        user_properties.logged_in,
-        user_properties.is_paired
 
-    from screen_name_events2
-    {% if var('user_properties', false) %}
-    -- If user properties have been assigned as variables, join them on the user_key
-    left join {{ref('stg_ga4__user_properties')}} as user_properties using (user_key)
-    {% endif %}
-),
 include_derived_session_properties2 as (
     select 
-        include_user_properties2.*,
+        screen_name_events2.*,
         session_properties.engagement_time_msec,
         session_properties.session_engaged
-    from include_user_properties2
+    from screen_name_events2 
     {% if var('derived_session_properties', false) %}
     -- If derived user properties have been assigned as variables, join them on the user_key
     left join {{ref('stg_ga4__derived_session_properties')}} as session_properties using (session_key)
