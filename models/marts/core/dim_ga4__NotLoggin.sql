@@ -29,6 +29,7 @@ include_derived_session_properties2 as (
 ),
 Journey as (
     select date,
+        time,
         user_key,
         ga_session_id,
         stream_id, 
