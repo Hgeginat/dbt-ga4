@@ -35,6 +35,8 @@ Journey as (
         stream_id, 
         user_pseudo_id,
         session_key,
+        engagement_time_msec,
+        session_engaged,
         item_category,
         content_type,
         polestar_market,
