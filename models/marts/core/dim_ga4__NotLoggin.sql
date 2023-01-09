@@ -1,7 +1,8 @@
 with screen_name_events2 as (
-    select 
+    select
         event_date_dt as date,
         TIMESTAMP_MICROS(event_timestamp) as  time,
+        event_name,
         user_key,
         ga_session_id,
         stream_id, 
@@ -13,7 +14,7 @@ with screen_name_events2 as (
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired
     from {{ref('stg_ga4__events')}}
-    where event_name = 'select_content'
+    
 ),
 
 include_derived_session_properties2 as (
@@ -30,6 +31,7 @@ include_derived_session_properties2 as (
 Journey as (
     select date,
         time,
+        event_name,
         user_key,
         ga_session_id,
         stream_id, 
