@@ -16,7 +16,6 @@ with start as (
     from {{ref('stg_ga4__events')}}
     group by  
     1,2,3,4,5,6,7,8,9
-    order by 3 ASC
     
 )
 
