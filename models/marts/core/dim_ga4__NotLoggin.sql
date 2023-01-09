@@ -1,6 +1,7 @@
 with screen_name_events2 as (
     select 
         event_date_dt as date,
+        TIMESTAMP_MICROS(event_timestamp) as  time,
         user_key,
         ga_session_id,
         stream_id, 
