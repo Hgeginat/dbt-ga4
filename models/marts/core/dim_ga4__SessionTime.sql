@@ -19,7 +19,7 @@ with start as (
     
 )
 
-select * from start where Session_key is not null
+select * from start 
 
 
 
