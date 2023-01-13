@@ -8,6 +8,7 @@ with screen_name_events as (
         user_pseudo_id,
         session_key,
         traffic_source_medium,
+        device_operating_system,
         (select value.string_value from unnest(event_params) where key = 'name') as name,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
@@ -38,6 +39,7 @@ micro_moments as (
         polestar_market,
         logged_in,
         is_paired,
+        device_operating_system,
         traffic_source_medium,
       (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,  
       CASE WHEN name like 'App:Post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30)
