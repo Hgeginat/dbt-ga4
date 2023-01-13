@@ -6,6 +6,7 @@ with events_base2 as (
         user_key,
         session_key,
         stream_id,
+         device_operating_system,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
         (select value.string_value from unnest(event_params) where key = 'car_model') as car_model,
         (select value.string_value from unnest(event_params) where key = 'content_type') as content_type,
@@ -33,7 +34,8 @@ app_events2 as (
         polestar_market,
         (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,
         user_key,
-        session_key
+        session_key,
+        device_operating_system,
     from include_derived_session_properties2
     where LOWER(content_type) like 'configurator_base_model_click%'
 )
