@@ -5,11 +5,12 @@ with group1 as (
         user_key as user_key,
         user_pseudo_id,
         event_name as event_name,
+        device_operating_system,
         Max((engagement_time_msec))/1000 as engagement_time_sec
 
     from {{ref('stg_ga4__events')}} 
    
-    group by 1,2,3,4,5
+    group by 1,2,3,4,5,6
 ),
 
 include_user_properties_market as (
@@ -48,6 +49,7 @@ unduplicate as (
     engagement_time_sec,
     logged_in,
     is_paired,
+    device_operating_system,
     ROW_NUMBER() over(partition by date,
                                     CAST(engagement_time_sec as STRING),
                                     polestar_market,
