@@ -82,6 +82,6 @@ vars:
 # The dimensional models are materialized as tables
 models:
   ga4:
-    +materialized: table
+    +materialized: view
     marts:
       +materialized: table
