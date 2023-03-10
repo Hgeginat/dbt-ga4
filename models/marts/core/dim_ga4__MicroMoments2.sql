@@ -41,10 +41,13 @@ micro_moments as (
         is_paired,
         device_operating_system,
         traffic_source_medium,
-      (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,  
-      CASE WHEN name like 'App:Post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30)
-           WHEN name like 'App:post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30)
-      END as micro_moment_name
+        (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,  
+         CASE WHEN name like 'App:Post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30)
+              WHEN name like 'App:post:%' THEN SUBSTR(REGEXP_REPLACE(name, 'App:(Post|post):[0-9]*:', ''),1,30)
+          END as micro_moment_name,
+        CASE WHEN name like 'App:post:%' THEN REGEXP_REPLACE(name, '[^0-9]+', '') 
+             WHEN name like 'App:Post:%' THEN REGEXP_REPLACE(name, '[^0-9]+', '')
+        END AS micro_id
     from include_derived_session_properties
     where name like 'App:Post:%' or name like 'App:post:%'
 )
