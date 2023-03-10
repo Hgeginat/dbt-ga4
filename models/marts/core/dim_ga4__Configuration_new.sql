@@ -46,8 +46,7 @@ app_events2 as (
         logged_in,
         is_paired
     from include_derived_session_properties2
-    where  LOWER(content_type) like 'store_click%'or LOWER(content_type) like 'page_view%' or LOWER(content_type) like 'check_out_click%' 
-    -- Or LOWER(content_type) like 'configurator_base_model_click' 
+    where  LOWER(content_type) like 'store_click%'or LOWER(content_type) like 'page_view%' or LOWER(content_type) like 'check_out_click%' or LOWER(content_type) like 'configurator_base_model_click' 
 
 )
 
