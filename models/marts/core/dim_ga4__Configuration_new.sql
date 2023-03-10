@@ -43,7 +43,6 @@ app_events2 as (
         user_key,
         session_key,
         device_operating_system,
-        polestar_market,
         logged_in,
         is_paired
     from include_derived_session_properties2
