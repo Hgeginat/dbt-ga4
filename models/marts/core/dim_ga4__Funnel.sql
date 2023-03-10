@@ -5,6 +5,7 @@ with users_base as (
         user_pseudo_id,
         stream_id,
         engagement_time_msec,
+        app_info_version,
         (select value.int_value from unnest(event_params) where key = 'engaged_session_event') as engaged_session_event,
         (select value.int_value from unnest(event_params) where key = 'ga_session_id') as ga_session_id,
         (select value.int_value from unnest(event_params) where key = 'ga_session_number') as ga_session_number,
@@ -36,7 +37,8 @@ final_table as (
         polestar_market,
         logged_in,
         is_paired,
-        device_operating_system
+        device_operating_system,
+        app_info_version
     from session_key_added)
    
 
