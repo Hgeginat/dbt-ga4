@@ -38,7 +38,7 @@ service_bookings as (
         user_key,
         session_key
     from include_derived_session_properties 
-    where ((LOWER(name) like 'app:you:polestarid:serviceandrepair' or LOWER(name) like 'app:you:polestarassistance' or lower(name) like 'app:you:polestarid:servicebooking') Or (content_type in ('polestar_assistance_call','servicing_date_start','servicing_time_start','servicing_error','servicing_complete','servicing_cancel_complete','servicing_book_click_enabled')))
+    where ((LOWER(name) like 'app:you:polestarid:serviceandrepair' or LOWER(name) like 'app:you:polestarassistance' or lower(name) like 'app:you:polestarid:servicebooking') Or (content_type in ('polestar_assistance_call','servicing_date_start','servicing_time_start', 'servicing_time_select','servicing_error','servicing_complete','servicing_cancel_complete','servicing_book_click_enabled')))
 )
 
 select * from service_bookings
