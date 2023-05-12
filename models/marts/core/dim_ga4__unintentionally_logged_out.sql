@@ -7,7 +7,7 @@ with events_base as (
         session_key,
         stream_id,
         device_operating_system,
-        device_operating_system_version,
+        app_info_version,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
         (select value.string_value from unnest(event_params) where key = 'item_category') as item_category,
         (select value.string_value from unnest(event_params) where key = 'content_type') as content_type,
@@ -39,11 +39,8 @@ final as (
         user_key,
         session_key,
         device_operating_system,
-        device_operating_system_version,
-        (CASE
-        WHEN device_operating_system = "Android" THEN REPLACE( device_operating_system_version, 'Android ', '')
-        WHEN device_operating_system = "iOS" THEN REPLACE( device_operating_system_version, 'iOS', '') 
-        END) AS device_operating_system_version_only
+        app_info_version
+       
 
     from include_derived_session_properties 
     where (LOWER(item_category) like 'app:you:polestarid' and lower(content_type) like 'logged_out_unintentionally')
