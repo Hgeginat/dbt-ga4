@@ -52,7 +52,11 @@ micro_moments as (
     where name like 'App:Post:%' or name like 'App:post:%'
 )
 
-select * from micro_moments
+select *,
+
+{{ga4.micromoment_name_en('micro_id')}} as micro_moment_name_en
+
+ from micro_moments
 
 
 
