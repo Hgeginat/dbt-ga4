@@ -26,7 +26,9 @@ last_part_data as (
            ELSE extract(ISOYEAR from first_time_seen) || "" || extract(ISOWEEK from first_time_seen) END) as first_week_seen,
     (CASE  WHEN extract(ISOWEEK from Last_time_seen) <10 THEN   extract(ISOYEAR from Last_time_seen) || "0" || extract(ISOWEEK from Last_time_seen)
            ELSE extract(ISOYEAR from Last_time_seen) || "" || extract(ISOWEEK from Last_time_seen) END) as last_week_seen,
-    Last_time_seen as date
+    Last_time_seen as date,
+    date_diff(CURRENT_DATE, Last_time_seen, DAY) as diff_days
+   
     
 
   
