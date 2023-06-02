@@ -21,5 +21,5 @@ COUNT(DISTINCT session_key) as amount_sessions
 from first_part_data
 group by 1,2,3,4)
 
-select * from second_part_data where (amount_sessions is NOT null or amount_sessions >0)
+select * from second_part_data where (amount_sessions >0)
    
