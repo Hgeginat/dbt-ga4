@@ -6,11 +6,11 @@ with events_base2 as (
         user_key,
         session_key,
         stream_id,
-         device_operating_system,
+        device_operating_system,
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
-
+        (select value.string_value from unnest(event_params) where key = 'item_category') as item_category,
         (select value.string_value from unnest(event_params) where key = 'item_id') as item_id,
         (select value.string_value from unnest(event_params) where key = 'car_model') as car_model,
         (select value.string_value from unnest(event_params) where key = 'content_type') as content_type
@@ -36,6 +36,7 @@ app_events2 as (
         content_type,
         car_model,
         item_id,
+        item_category,
         {{ga4.car_control_category('content_type')}} as car_control_category,
         event_date_dt as date,
         polestar_market,
