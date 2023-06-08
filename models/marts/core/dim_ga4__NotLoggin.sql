@@ -8,6 +8,7 @@ with screen_name_events2 as (
         stream_id, 
         user_pseudo_id,
         session_key,
+        app_info_version,
         (select value.string_value from unnest(event_params) where key = 'item_category') as item_category,
         (select value.string_value from unnest(event_params) where key = 'content_type') as content_type,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
@@ -44,6 +45,7 @@ Journey as (
         polestar_market,
         logged_in,
         is_paired,
+        app_info_version,
        (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key
     
     from include_derived_session_properties2
