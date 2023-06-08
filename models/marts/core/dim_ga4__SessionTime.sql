@@ -6,6 +6,7 @@ with start as (
         ga_session_id,
         ga_session_number,
         user_pseudo_id,
+        app_info_version,
         event_date_dt as date,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
