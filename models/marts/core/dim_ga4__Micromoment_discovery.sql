@@ -13,7 +13,7 @@ with screen_name_events as (
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired,
         (select value.string_value from unnest(event_params) where key = 'item_category') as item_category,
         (select value.string_value from unnest(event_params) where key = 'content_type') as content_type,
-        (select value.string_value from unnest(event_params) where key = 'Item_id') as Item_id
+        (select value.string_value from unnest(event_params) where key = 'item_id') as item_id
     from {{ref('stg_ga4__events')}}
     where event_name = 'select_content'
 ),
@@ -42,7 +42,7 @@ micro_moments as (
         is_paired,
         device_operating_system,
         content_type,
-        Item_id,
+        item_id,
 
         (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key  
          
