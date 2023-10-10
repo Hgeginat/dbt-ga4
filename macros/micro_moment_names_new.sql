@@ -3,7 +3,7 @@
 case
 WHEN CAST (item_id AS STRING) ='149425364' THEN 'The Polestar Digital Key'
 WHEN CAST (item_id AS STRING) ='148915376' THEN 'Polestar 4. The SUV coupé transformed'
-WHEN CAST (item_id AS STRING) ='1149158026' THEN 'The Allebike Alpha Polestar edition'
+WHEN CAST (item_id AS STRING) ='149158026' THEN 'The Allebike Alpha Polestar edition'
 WHEN CAST (item_id AS STRING) ='148850071' THEN 'YouTube in-car app'
 WHEN CAST (item_id AS STRING) ='148851138' THEN 'Polestar and Candela. The next phase'
 WHEN CAST (item_id AS STRING) ='148916078' THEN 'Polestar Sustainability Report 2022'
