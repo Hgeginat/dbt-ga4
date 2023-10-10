@@ -1,4 +1,4 @@
-{% macro micro_moment_name_new(micro_id) %}
+{% macro micro_moment_names_new(micro_id) %}
 
 case
 WHEN CAST (item_id AS STRING) ='149425364' THEN 'The Polestar Digital Key'
