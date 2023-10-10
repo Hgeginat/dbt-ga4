@@ -14,7 +14,7 @@ WHEN CAST (item_id AS STRING) ='149212072' THEN 'Remote actions: Polestar and Go
 WHEN CAST (item_id AS STRING) ='149211948' THEN 'Smarter charging with Tibber'
 WHEN CAST (item_id AS STRING) ='149210757' THEN 'Pre-entry climate control'
 WHEN CAST (item_id AS STRING) ='149132712' THEN 'Sitting down is the only signal the Polestar 2 needs to let it know its go time.' 
-WHEN CAST (item_id AS STRING) ='148727834' THEN 'oogle Remote Voice Assistant'  
+WHEN CAST (item_id AS STRING) ='148727834' THEN 'Google Remote Voice Assistant'  
 END
  
 {% endmacro %}
