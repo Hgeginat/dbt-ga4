@@ -43,11 +43,16 @@ micro_moments as (
         device_operating_system,
         content_type,
         item_id,
-        (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key  
+        (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,
+        {{ga4.micro_moment_names_new('item_id')}} as micro_name_article
+       
          
+
        
     from include_derived_session_properties
     where item_category  like 'App:discover')
+
+
 
 select * from micro_moments
 
