@@ -11,6 +11,8 @@ with events_base as (
         (select value.string_value from unnest(event_params) where key = 'item_category') as item_category,
         (select value.string_value from unnest(event_params) where key = 'content_type') as content_type,
         (select value.string_value from unnest(event_params) where key = 'item_id') as item_id,
+        (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
+        (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired
     from {{ref('stg_ga4__events')}}
     where event_name like 'select_content'
 ),
@@ -34,6 +36,8 @@ app_events as (
         {{ga4.car_control_category('content_type')}} as car_control_category,
         event_date_dt as date,
         polestar_market,
+        logged_in,
+        is_paired,
         (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,
         user_key,
         session_key,

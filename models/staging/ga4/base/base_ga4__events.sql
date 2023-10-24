@@ -51,6 +51,7 @@ with source as (
         platform,
         ecommerce,
         items,
+        is_active_user,
     {%  if var('frequency', 'daily') == 'streaming' %}
         from {{ source('ga4', 'events_intraday') }}
         where cast( _table_suffix as int64) >= {{var('start_date')}}
@@ -124,6 +125,7 @@ renamed as (
         platform,
         ecommerce,
         items,
+        is_active_user,
         {{ ga4.unnest_key('event_params', 'ga_session_id', 'int_value') }},
         {{ ga4.unnest_key('event_params', 'page_location') }},
         {{ ga4.unnest_key('event_params', 'ga_session_number',  'int_value') }},
