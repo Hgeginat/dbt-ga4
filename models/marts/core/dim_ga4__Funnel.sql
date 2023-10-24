@@ -12,6 +12,7 @@ with users_base as (
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired,
+        active_user_index,
         device_operating_system
 
     from {{ref('stg_ga4__events')}}
@@ -30,6 +31,7 @@ final_table as (
     select
         event_date_dt,
         user_pseudo_id,
+        active_user_index,
         active_user_key,
         session_key,
         ga_session_id,
