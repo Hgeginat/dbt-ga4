@@ -50,7 +50,7 @@ micro_moments as (
 
        
     from include_derived_session_properties
-    where item_category  like 'App:discover' or item_category  like 'App:discover '  )
+    where item_category  like 'App:discover' or item_category  like 'App:discover ' or item_category like 'App:discover:spotlight' or item_category like 'App:discover:news' )
 
 
 
