@@ -55,7 +55,7 @@ with source as (
         stream_id,
         platform,
         ecommerce,
-        items,
+        -- items,
         is_active_user,
     {%  if var('frequency', 'daily') == 'streaming' %}
         from {{ source('ga4', 'events_intraday') }}
@@ -129,8 +129,8 @@ renamed as (
         stream_id,
         platform,
         ecommerce,
-        items,
-        (case when (is_active_user = true) then 1 else 0 end) as active_user_index,
+        -- items,
+        cast((case when (is_active_user = true) then 1 else 0 end)as int64) as active_user_index,
         {{ ga4.unnest_key('event_params', 'ga_session_id', 'int_value') }},
         {{ ga4.unnest_key('event_params', 'page_location') }},
         {{ ga4.unnest_key('event_params', 'ga_session_number',  'int_value') }},
