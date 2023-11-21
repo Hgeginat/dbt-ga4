@@ -1,8 +1,13 @@
+-- This checks if the variable static_incremental_days is set and is not false. If it's true, it means that incremental loading with specific partitioning is enabled.
+-- If incremental loading is enabled, this loop generates a list of partition values to be replaced. 
+-- It iterates static_incremental_days times and constructs a list of SQL expressions representing dates in the past, using date_sub to subtract days from the current date.
+
 {% if var('static_incremental_days', false ) %}
     {% set partitions_to_replace = [] %}
     {% for i in range(var('static_incremental_days')) %}
         {% set partitions_to_replace = partitions_to_replace.append('date_sub(current_date, interval ' + (i+1)|string + ' day)') %}
     {% endfor %}
+
     {{
         config(
             materialized = 'incremental',
