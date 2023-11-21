@@ -22,7 +22,8 @@ with users_base as (
 session_key_added as (
     select 
         users_base.*,
-        to_base64(md5(CONCAT(stream_id, user_pseudo_id, CAST(ga_session_id as STRING)))) as session_key,
+        -- to_base64(md5(CONCAT(stream_id, user_pseudo_id, CAST(ga_session_id as STRING)))) as session_key,
+        concat(user_pseudo_id, ga_session_id,  stream_id) as session_key,
         (case when engagement_time_msec > 0 or engaged_session_event = 1 then user_pseudo_id else null end) as active_user_key
         from users_base
 ),

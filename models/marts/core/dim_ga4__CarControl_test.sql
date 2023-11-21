@@ -8,15 +8,27 @@ with screen_name_events as (
         user_pseudo_id,
         session_key,
         device_operating_system,
+        app_info_version,
+        geo_country,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired,
+        (select value.string_value from unnest(user_properties) where key = 'owner_type') as owner_type,
+        (select value.string_value from unnest(user_properties) where key = 'garage_amount_cars') as garage_amount_cars,
+        (select value.string_value from unnest(user_properties) where key = 'is_car_owner') as is_car_owner,
+        (select value.string_value from unnest(user_properties) where key = 'car_model') as car_model,
         (select value.string_value from unnest(event_params) where key = 'item_category') as item_category,
         (select value.string_value from unnest(event_params) where key = 'content_type') as content_type,
-        (select value.string_value from unnest(event_params) where key = 'item_id') as item_id
+        (select value.string_value from unnest(event_params) where key = 'item_id') as item_id,
+        (select value.string_value from unnest(event_params) where key = 'item_name') as item_name
+        
+       
     from {{ref('stg_ga4__events')}}
     where event_name = 'select_content'
 ),
+
+
+
 
 include_derived_session_properties as (
     select 
@@ -30,7 +42,7 @@ include_derived_session_properties as (
     {% endif %}
    )
 ,
-micro_moments as (
+garage_data as (
     select date,
         user_key,
         ga_session_id,
@@ -40,23 +52,26 @@ micro_moments as (
         polestar_market,
         logged_in,
         is_paired,
+        is_car_owner,
+        owner_type,
+        CAST(garage_amount_cars AS INT) AS garage_amount_cars,
+        item_category,
         device_operating_system,
         content_type,
         item_id,
-        (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,
-        {{ga4.micro_moment_names_new('item_id')}} as micro_name_article,
-        item_category
-       
-         
+        car_model,
+        item_name,
+        app_info_version,
+        geo_country as country,
+        (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key
+        
 
        
     from include_derived_session_properties
-    where item_category  like 'App:discover' or item_category  like 'App:discover ' or item_category like 'App:discover:spotlight' or item_category like 'App:discover:news')
+    where item_category  like 'App:carcontrol%' and app_info_version ="4.0.0"  )
 
 
 
-select * from micro_moments
-
-
+select * from garage_data
 
 
