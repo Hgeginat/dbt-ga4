@@ -8,6 +8,7 @@ with screen_name_events as (
         user_pseudo_id,
         session_key,
         device_operating_system,
+        app_info_version,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired,
