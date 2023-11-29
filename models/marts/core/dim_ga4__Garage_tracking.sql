@@ -55,6 +55,7 @@ garage_data as (
         CAST(garage_amount_cars AS INT) AS garage_amount_cars,
         item_category,
         device_operating_system,
+        app_info_version,
         content_type,
         item_id,
         car_model,
