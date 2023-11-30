@@ -64,7 +64,7 @@ garage_data as (
 
        
     from include_derived_session_properties
-    where item_category  like 'App:garage'  )
+    where (item_category  like 'App:garage') or (item_category  like 'App:carcontrol%' and content_type='pairing_success'))
 
 
 
