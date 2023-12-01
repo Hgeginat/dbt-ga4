@@ -2,6 +2,7 @@
 with screen_name_events as (
     select 
         event_date_dt as date,
+        concat(event_date_dt,' ', cast(format("%02d",extract(hour from timestamp_micros(event_timestamp))) as string),':', format("%02d",extract(minute from timestamp_micros(event_timestamp)))) as datetime,
         user_key,
         ga_session_id,
         stream_id, 
@@ -44,6 +45,7 @@ include_derived_session_properties as (
 ,
 garage_data as (
     select date,
+        datetime,
         user_key,
         ga_session_id,
         stream_id, 
