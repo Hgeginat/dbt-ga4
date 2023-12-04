@@ -70,7 +70,7 @@ garage_data as (
 
        
     from include_derived_session_properties
-    where item_category  like 'App:carcontrol%' and app_info_version ="4.0.0"  )
+    where item_category  like 'App:carcontrol%' and(app_info_version ="4.0.0" or app_info_version ="4.0.1") )
 
 
 
