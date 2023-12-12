@@ -3,6 +3,7 @@ with events_base as (
         event_name,
         event_date_dt,
         user_pseudo_id,
+        active_user_index,
         user_key,
         session_key,
         stream_id,
@@ -34,7 +35,9 @@ service_bookings as (
         content_type,
         name,
         item_id,
+        user_pseudo_id,
         (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,
+        active_user_index,
         user_key,
         session_key
     from include_derived_session_properties 
