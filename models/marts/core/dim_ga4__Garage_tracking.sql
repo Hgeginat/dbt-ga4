@@ -9,6 +9,7 @@ with screen_name_events as (
         session_key,
         device_operating_system,
         app_info_version,
+        active_user_index,
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired,
@@ -59,7 +60,8 @@ garage_data as (
         content_type,
         item_id,
         car_model,
-        (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key
+        (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,
+        active_user_index
         
 
        
