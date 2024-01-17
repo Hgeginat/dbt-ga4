@@ -67,7 +67,8 @@ garage_data as (
         geo_country as country,
         (case when engagement_time_msec > 0 or session_engaged = 1 then user_key else null end) as active_user_key,
         {{ga4.car_control_new_category_level_1(content_type, item_id, item_category)}} as level1,
-        {{ga4.car_control_new_category_level_2(content_type, item_id, item_category)}} as level2
+        {{ga4.car_control_new_category_level_2(content_type, item_id, item_category)}} as level2,
+        {{ga4.car_control_new_category_level_3(content_type, item_id, item_category)}} as level3
         
         
 
