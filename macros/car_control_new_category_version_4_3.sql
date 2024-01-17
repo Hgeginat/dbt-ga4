@@ -77,6 +77,6 @@ CASE
     THEN 'Stop'
 
     
-else 'Other'
+else ''
 end
 {% endmacro %}
