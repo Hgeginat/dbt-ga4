@@ -1,6 +1,6 @@
 {% macro car_control_new_category_level_1(content_type, item_id, item_category) %}
 
-case 
+CASE
     WHEN 
     (TRIM(content_type) ='tile_nav_click' AND TRIM (item_id) = 'tile_air_quality_detail_click' AND TRIM (item_category) = 'App:carcontrol' ) OR 
     (TRIM(content_type) ='modal' AND TRIM (item_id) = 'airquality_information_click' AND TRIM (item_category) = 'App:carcontrol:airquality' ) OR 
@@ -89,7 +89,7 @@ END
 {% endmacro %}
 
 {% macro car_control_new_category_level_2(content_type, item_id, item_category) %}
-case
+CASE
     WHEN
     (TRIM(content_type) ='tile_nav_click' AND TRIM (item_id) = 'tile_air_quality_detail_click' AND TRIM (item_category) = 'App:carcontrol' ) OR 
     (TRIM(content_type) ='modal' AND TRIM (item_id) = 'airquality_information_click' AND TRIM (item_category) = 'App:carcontrol:airquality' ) OR 
@@ -177,5 +177,6 @@ case
     WHEN
     (TRIM(content_type) ='tile_switched_places' AND TRIM (item_id) = 'tile_switched_places' AND TRIM (item_category) = 'App:carcontrol' ) 
     THEN 'Tile switch Place'
+else 'Other'
 end
 {% endmacro %}
