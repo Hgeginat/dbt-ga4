@@ -89,6 +89,7 @@ END
 {% endmacro %}
 
 {% macro car_control_new_category_level_2(content_type, item_id, item_category) %}
+case
     WHEN
     (TRIM(content_type) ='tile_nav_click' AND TRIM (item_id) = 'tile_air_quality_detail_click' AND TRIM (item_category) = 'App:carcontrol' ) OR 
     (TRIM(content_type) ='modal' AND TRIM (item_id) = 'airquality_information_click' AND TRIM (item_category) = 'App:carcontrol:airquality' ) OR 
@@ -149,12 +150,11 @@ END
     (TRIM(content_type) ='error_event' AND TRIM (item_id) = 'cc_timeout_fetch_door_status' AND TRIM (item_category) = 'App:carcontrol' ) OR 
     (TRIM(content_type) ='error_event' AND TRIM (item_id) = 'cc_not_able_to_get_status_of_doors' AND TRIM (item_category) = 'App:carcontrol' ) OR 
     (TRIM(content_type) ='error_event' AND TRIM (item_id) = 'cc_carpos_error_wrong_usage_mode' AND TRIM (item_category) = 'App:carcontrol' ) 
-
     THEN 'Error'
 
 
     WHEN
-    (TRIM(content_type) ='page_view' AND TRIM (item_id) = 'tile_overview_page_view' AND TRIM (item_category) = 'App:carcontrol' ) 
+    (TRIM(content_type) ='page_view' AND TRIM (item_id) = 'tile_overview_page_view' AND TRIM (item_category) = 'App:carcontrol') 
     THEN 'Overview'
 
     WHEN 
@@ -177,5 +177,5 @@ END
     WHEN
     (TRIM(content_type) ='tile_switched_places' AND TRIM (item_id) = 'tile_switched_places' AND TRIM (item_category) = 'App:carcontrol' ) 
     THEN 'Tile switch Place'
-
+end
 {% endmacro %}
