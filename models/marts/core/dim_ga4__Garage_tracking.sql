@@ -14,7 +14,12 @@ with screen_name_events as (
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired,
         (select value.string_value from unnest(user_properties) where key = 'owner_type') as owner_type,
-        (select value.string_value from unnest(user_properties) where key = 'garage_amount_cars') as garage_amount_cars,
+        CASE 
+            WHEN (select value.string_value from unnest(user_properties) where key = 'garage_amount_cars') IS NOT NULL
+                THEN (select value.string_value from unnest(user_properties) where key = 'garage_amount_cars')
+            ELSE 
+                (select value.string_value from unnest(event_params) where key = 'garage_amount_cars')
+        END as garage_amount_cars,
         (select value.string_value from unnest(user_properties) where key = 'is_car_owner') as is_car_owner,
         (select value.string_value from unnest(user_properties) where key = 'car_model') as car_model,
         (select value.string_value from unnest(event_params) where key = 'item_category') as item_category,
