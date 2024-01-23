@@ -3,6 +3,7 @@ with first_part_data as (
 select 
 event_date_dt,
 active_user_key,
+user_pseudo_id,
 polestar_market,
 device_operating_system
 
@@ -12,17 +13,19 @@ second_part_data as (
 
 select 
 active_user_key,
+user_pseudo_id,
 polestar_market,
 device_operating_system,
 min(event_date_dt) as first_time_seen,
 max(event_date_dt) as Last_time_seen
 
 from first_part_data
-group by 1,2,3),
+group by 1,2,3,4),
 
 last_part_data as (
     select
     active_user_key,
+    user_pseudo_id,
     polestar_market,
     device_operating_system,
     (CASE  WHEN extract(ISOWEEK from first_time_seen)<10 THEN   extract(ISOYEAR from first_time_seen) || "0" || extract(ISOWEEK from first_time_seen) 
