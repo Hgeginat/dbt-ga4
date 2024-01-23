@@ -48,12 +48,12 @@ select *,
     CASE
         WHEN EXTRACT(MONTH FROM Aquisition_Month)<10 THEN ( EXTRACT(ISOYEAR FROM Aquisition_Month) || '0' || EXTRACT(MONTH FROM Aquisition_Month))
         ELSE (EXTRACT(ISOYEAR FROM Aquisition_Month) || '' || EXTRACT(MONTH FROM Aquisition_Month)) 
-    END  AS Aquisition_Month,
+    END  AS Aquisition_Month_1,
 
     CASE
         WHEN EXTRACT(MONTH FROM Latest_Month)<10 THEN ( EXTRACT(ISOYEAR FROM Latest_Month) || '0' || EXTRACT(MONTH FROM Latest_Month))
         ELSE (EXTRACT(ISOYEAR FROM Latest_Month) || '' || EXTRACT(MONTH FROM Latest_Month)) 
-    END  AS Latest_Month
+    END  AS Latest_Month_1
 
  from last_part_data 
 
