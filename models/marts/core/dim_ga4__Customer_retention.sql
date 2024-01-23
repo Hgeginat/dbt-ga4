@@ -40,8 +40,6 @@ last_part_data as (
    
     
 
-  
-
 
     from second_part_data
     )
