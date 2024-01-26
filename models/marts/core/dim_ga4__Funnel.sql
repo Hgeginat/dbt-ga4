@@ -36,6 +36,7 @@ final_table as (
         active_user_index,
         active_user_key,
         session_key,
+        CASE when event_name = 'first_open' THEN 1 ELSE 0 END as first_open,
         ga_session_id,
         ga_session_number,
         polestar_market,
