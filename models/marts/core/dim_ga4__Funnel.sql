@@ -16,7 +16,7 @@ with users_base as (
         device_operating_system,
         geo_country
 
-    from {{ref('stg_ga4__events')}}
+    from {{ref('base_ga4__events')}}
     
     ),
 
