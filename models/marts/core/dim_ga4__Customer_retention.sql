@@ -34,13 +34,23 @@ third_part_data AS (
 
 regrouped_data AS (
   SELECT
-    s.user_pseudo_id,
-    s.active_user_key,
-    s.device_operating_system,
+    f.user_pseudo_id,
+    f.active_user_key,
+    f.device_operating_system,
     s.first_time_seen,
-    t.last_time_seen
   FROM second_part_data s
-  LEFT JOIN third_part_data t ON s.user_pseudo_id = t.user_pseudo_id
+  LEFT JOIN first_part_data f ON f.user_pseudo_id = s.user_pseudo_id
+),
+
+regrouped_data_2 AS (
+  SELECT
+    q.user_pseudo_id,
+    q.active_user_key,
+    q.device_operating_system,
+    q.first_time_seen,
+    t.last_time_seen
+  FROM third_part_data t
+  LEFT JOIN regrouped_data q ON q.user_pseudo_id = t.user_pseudo_id
 ),
 
 
@@ -51,20 +61,8 @@ max_grouped_data AS (
     device_operating_system,
     min(first_time_seen) as first_time_seen,
     max(last_time_seen) As last_time_seen
-    from regrouped_data
+    from regrouped_data_2
     GROUP BY 1, 2, 3
-),
-
-max_grouped_data_1 AS (
-    SELECT
-    f.user_pseudo_id,
-    f.active_user_key,
-    f.device_operating_system,
-    m.first_time_seen,
-    m.last_time_seen
-    from first_part_data f
-    LEFT JOIN max_grouped_data m  ON f.user_pseudo_id = m.user_pseudo_id
-
 ),
 
 last_part_data as (
@@ -80,7 +78,7 @@ last_part_data as (
     first_time_seen as inital_date,
     Last_time_seen as date,
     date_diff(CURRENT_DATE, Last_time_seen, DAY) as diff_days
-    from  max_grouped_data_1),
+    from  max_grouped_data),
 
 final_data as (  
 select *,
