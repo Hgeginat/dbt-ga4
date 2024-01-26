@@ -96,7 +96,7 @@ select *,
 
  from last_part_data)
 
-SELECT * FROM final_data ;
+SELECT * FROM final_data
    
 
 
