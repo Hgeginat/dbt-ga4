@@ -38,8 +38,8 @@ regrouped_data AS (
     f.active_user_key,
     f.device_operating_system,
     s.first_time_seen,
-  FROM second_part_data s
-  LEFT JOIN first_part_data f ON f.user_pseudo_id = s.user_pseudo_id
+  FROM first_part_data f
+  LEFT JOIN second_part_data s ON f.user_pseudo_id = s.user_pseudo_id
 ),
 
 regrouped_data_2 AS (
@@ -49,8 +49,8 @@ regrouped_data_2 AS (
     q.device_operating_system,
     q.first_time_seen,
     t.last_time_seen
-  FROM third_part_data t
-  LEFT JOIN regrouped_data q ON q.user_pseudo_id = t.user_pseudo_id
+  FROM regrouped_data q
+  LEFT JOIN third_part_data t ON q.user_pseudo_id = t.user_pseudo_id
 ),
 
 
