@@ -43,10 +43,10 @@ final_table as (
         polestar_market,
         logged_in,
         is_paired,
-        is_car_owner,
         device_operating_system,
         app_info_version,
-        geo_country
+        geo_country,
+        CASE when is_car_owner = 'true' THEN 1 ELSE 0 END as is_car_owner
     from session_key_added)
    
 
