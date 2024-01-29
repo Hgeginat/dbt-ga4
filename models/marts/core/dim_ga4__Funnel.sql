@@ -12,6 +12,7 @@ with users_base as (
         (select value.string_value from unnest(user_properties) where key = 'polestar_market') as polestar_market,
         (select value.string_value from unnest(user_properties) where key = 'logged_in') as logged_in,
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired,
+        (select value.string_value from unnest(user_properties) where key = 'owner_type') as owner_type,
         active_user_index,
         device_operating_system,
         geo_country
@@ -42,6 +43,7 @@ final_table as (
         polestar_market,
         logged_in,
         is_paired,
+        owner_type,
         device_operating_system,
         app_info_version,
         geo_country
