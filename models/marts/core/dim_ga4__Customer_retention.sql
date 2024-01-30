@@ -81,10 +81,10 @@ last_part_data as (
     device_operating_system,
     is_car_owner,
     is_paired,
-    (CASE  WHEN extract(ISOWEEK from first_time_seen)<10 THEN   extract(ISOYEAR from first_time_seen) || "0" || extract(ISOWEEK from first_time_seen) 
-           ELSE extract(ISOYEAR from first_time_seen) || "" || extract(ISOWEEK from first_time_seen) END) as first_week_seen,
-    (CASE  WHEN extract(ISOWEEK from Last_time_seen) <10 THEN   extract(ISOYEAR from Last_time_seen) || "0" || extract(ISOWEEK from Last_time_seen)
-           ELSE extract(ISOYEAR from Last_time_seen) || "" || extract(ISOWEEK from Last_time_seen) END) as last_week_seen,
+    (CASE  WHEN extract(ISOWEEK from first_time_seen)<10 THEN   extract(YEAR from first_time_seen) || "0" || extract(ISOWEEK from first_time_seen) 
+           ELSE extract(YEAR from first_time_seen) || "" || extract(ISOWEEK from first_time_seen) END) as first_week_seen,
+    (CASE  WHEN extract(ISOWEEK from Last_time_seen) <10 THEN   extract(YEAR from Last_time_seen) || "0" || extract(ISOWEEK from Last_time_seen)
+           ELSE extract(YEAR from Last_time_seen) || "" || extract(ISOWEEK from Last_time_seen) END) as last_week_seen,
     first_time_seen as inital_date,
     Last_time_seen as date,
     date_diff(CURRENT_DATE, Last_time_seen, DAY) as diff_days
@@ -93,13 +93,13 @@ last_part_data as (
 final_data as (  
 select *,
     CASE
-        WHEN EXTRACT(MONTH FROM inital_date)<10 THEN ( EXTRACT(ISOYEAR FROM inital_date) || '0' || EXTRACT(MONTH FROM inital_date))
-        ELSE (EXTRACT(ISOYEAR FROM inital_date) || '' || EXTRACT(MONTH FROM inital_date)) 
+        WHEN EXTRACT(MONTH FROM inital_date)<10 THEN ( EXTRACT(YEAR FROM inital_date) || '0' || EXTRACT(MONTH FROM inital_date))
+        ELSE (EXTRACT(YEAR FROM inital_date) || '' || EXTRACT(MONTH FROM inital_date)) 
     END  AS Aquisition_Month,
 
     CASE
-        WHEN EXTRACT(MONTH FROM date) <10 THEN ( EXTRACT(ISOYEAR FROM date) || '0' || EXTRACT(MONTH FROM date))
-        ELSE (EXTRACT(ISOYEAR FROM date) || '' || EXTRACT(MONTH FROM date)) 
+        WHEN EXTRACT(MONTH FROM date) <10 THEN ( EXTRACT(YEAR FROM date) || '0' || EXTRACT(MONTH FROM date))
+        ELSE (EXTRACT(YEAR FROM date) || '' || EXTRACT(MONTH FROM date)) 
     END  AS Latest_Month
 
  from last_part_data)
