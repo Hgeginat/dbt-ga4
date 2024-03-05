@@ -1,7 +1,7 @@
 
---- this one is unactive as we are not importing streaming , as var in dbt_project.yml is set to frequency: "daily" 
 
-{% if var('frequency', 'daily') == 'daily+streaming' %} -- The {% if %} statement checks if the value of the variable frequency is equal to 'daily+streaming'.
+
+{% if var('frequency', 'daily') == 'daily+streaming' %} 
     {{ config(
     enabled = true 
     ) }}
