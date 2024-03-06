@@ -1,5 +1,5 @@
 -- This staging model contains key creation and window functions. Keeping window functions outside of the base incremental model ensures that the incremental updates don't artificially limit the window partition sizes (ex: if a session spans 2 days, but only 1 day is in the incremental update)
-
+-- merging here intraday data with total data, but we do not have intraday data
 with base_events as (
     select * from {{ ref('base_ga4__events')}}
     {% if var('frequency', 'daily') == 'daily+streaming' %}
@@ -18,6 +18,7 @@ add_user_key as (
         end as user_key
     from base_events
 ), 
+
 -- Add unique key for sessions. session_key will be null if user_pseudo_id is null due to consent being denied. ga_session_id may be null during audience trigger events. 
 include_session_key as (
     select 

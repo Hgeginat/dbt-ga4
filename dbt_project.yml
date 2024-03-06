@@ -83,6 +83,8 @@ vars:
 # The dimensional models are materialized as tables
 models:
   ga4:
-    +materialized: view
+    +materialized: view 
     marts:
       +materialized: table
+
+#All tables here in the folder staging > ga4  --> view but not the one that are staging> ga4> base  these will be materialized into tables
