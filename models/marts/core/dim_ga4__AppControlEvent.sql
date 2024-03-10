@@ -18,6 +18,9 @@ with events_base as (
     from {{ref('stg_ga4__events')}}
     where event_name like 'select_content'
 ),
+
+-- returning all the values of the session_properties 
+-- returns all rows from the left table (event base), and the matched rows from the right table (stg_ga4__derived_session_properties). If there's no match, NULL values are returned for the columns from the right table.
 include_derived_session_properties as (
     select 
         events_base.*,
@@ -25,7 +28,7 @@ include_derived_session_properties as (
         session_properties.session_engaged
     from events_base
     {% if var('derived_session_properties', false) %}
-    -- If derived user properties have been assigned as variables, join them on the user_key
+    -- If derived user properties have been assigned as variables, join them on the session_key
     left join {{ref('stg_ga4__derived_session_properties')}} as session_properties using (session_key)
     {% endif %}
 ),
