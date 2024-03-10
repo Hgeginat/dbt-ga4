@@ -36,6 +36,7 @@ with source as (
         platform,
         ecommerce,
         items,
+        collected_traffic_source,
         is_active_user,
     from {{ source('ga4', 'events_intraday') }}
 ),
@@ -70,11 +71,11 @@ renamed as (
         device.language as device_language,
         device.is_limited_ad_tracking as device_is_limited_ad_tracking,
         device.time_zone_offset_seconds as device_time_zone_offset_seconds,
-        -- device.browser as device_browser,
-        -- device.browser_version as device_browser_version,
+        device.browser as device_browser,
+        device.browser_version as device_browser_version,
         device.web_info.browser as device_web_info_browser,
         device.web_info.browser_version as device_web_info_browser_version,
-        -- device.web_info.hostname as device_web_info_hostname,
+        device.web_info.hostname as device_web_info_hostname,
         geo.continent as geo_continent,
         geo.country as geo_country,
         geo.region as geo_region,
@@ -93,27 +94,13 @@ renamed as (
         platform,
         ecommerce,
         items,
+        collected_traffic_source,
         (case when (is_active_user = true) then 1 else 0 end) as active_user_index,
         {{ ga4.unnest_key('event_params', 'ga_session_id', 'int_value') }},
-        {{ ga4.unnest_key('event_params', 'page_location') }},
         {{ ga4.unnest_key('event_params', 'ga_session_number',  'int_value') }},
         (case when (SELECT value.string_value FROM unnest(event_params) WHERE key = "session_engaged") = "1" then 1 end) as session_engaged,
-        {{ ga4.unnest_key('event_params', 'engagement_time_msec', 'int_value') }},
-        {{ ga4.unnest_key('event_params', 'page_title') }},
-        {{ ga4.unnest_key('event_params', 'page_referrer') }},
-        {{ ga4.unnest_key('event_params', 'source') }},
-        {{ ga4.unnest_key('event_params', 'medium') }},
-        {{ ga4.unnest_key('event_params', 'campaign') }},
-        {{ ga4.unnest_key('event_params', 'content') }},
-        {{ ga4.unnest_key('event_params', 'term') }},
-        CASE 
-            WHEN event_name = 'page_view' THEN 1
-            ELSE 0
-        END AS is_page_view,
-        CASE 
-            WHEN event_name = 'purchase' THEN 1
-            ELSE 0
-        END AS is_purchase
+        {{ ga4.unnest_key('event_params', 'engagement_time_msec', 'int_value') }}
+       
     from source
 )
 
