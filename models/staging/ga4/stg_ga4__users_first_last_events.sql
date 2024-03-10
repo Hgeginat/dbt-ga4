@@ -6,7 +6,9 @@ with first_last_event as (
     select
         user_key,
         FIRST_VALUE(event_key) OVER (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS first_event,
-        LAST_VALUE(event_key) OVER (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_event
+        LAST_VALUE(event_key) OVER (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_event,
+        FIRST_VALUE(event_timestamp) OVER (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS first_event_timestamp,
+        LAST_VALUE(event_timestamp) OVER (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_event_timestamp
     from {{ref('stg_ga4__events')}}
     where user_key is not null --remove users with privacy settings enabled
 ),
@@ -14,7 +16,11 @@ events_by_user_key as (
     select distinct
         user_key,
         first_event,
-        last_event
+        last_event,
+        first_event_timestamp,
+        last_event_timestamp,
+        (last_event_timestamp-first_event_timestamp)/1000 as session_time
+        
     from first_last_event
 ),
 events_joined as (
