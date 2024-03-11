@@ -1,3 +1,7 @@
+-- This checks if the variable static_incremental_days is set and is not false. If it's true, it means that incremental loading with specific partitioning is enabled.
+-- If incremental loading is enabled, this loop generates a list of partition values to be replaced. 
+-- It iterates static_incremental_days times and constructs a list of SQL expressions representing dates in the past, using date_sub to subtract days from the current date.
+
 {% if var('static_incremental_days', false ) %} -- if true, this part of the code will be running only if the variable static_incremental_days exist. if it does not exist, the default value of it will be false. Therefore, the code in the block will not run
     {% set partitions_to_replace = [] %} --  Initializes an empty list named partitions_to_replace aim :  This list is intended to store partition values for incremental loading.
 
@@ -34,12 +38,10 @@
 {% endif %}
 
 
-
-
 with events_base as (
     select 
+        event_date_dt, 
         event_name,
-        event_date_dt,
         user_pseudo_id,
         active_user_index,
         user_key,
