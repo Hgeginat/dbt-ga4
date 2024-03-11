@@ -51,6 +51,7 @@ vars:
      - event_parameter: "name"
        user_property_name: "name"
        value_type: "string_value"
+    
 
 #Session properties can be defined here. # Review needed session properties to be added in here so displayed in derived_session_properties
    derived_session_properties:
