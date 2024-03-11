@@ -6,7 +6,7 @@ with group1 as (
         user_pseudo_id,
         event_name as event_name,
         device_operating_system,
-        Max((engagement_time_msec))/1000 as engagement_time_sec
+        sum((engagement_time_msec))/1000 as engagement_time_sec
 
     from {{ref('stg_ga4__events')}} 
    
