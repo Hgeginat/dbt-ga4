@@ -39,11 +39,12 @@ with session_start_dims as (
 
 include_session_properties as (
     select 
-         session_start_dims.*
+         session_start_dims.*,
+         session_properties.session_engaged
     from session_start_dims
     {% if var('derived_session_properties', false) %}
     -- If derived session properties have been assigned as variables, join them on the session_key
-    left join {{ref('stg_ga4__derived_session_properties')}} using (session_key)
+    left join {{ref('stg_ga4__derived_session_properties')}} as session_properties using (session_key)
     {% endif %}
 ),
 include_user_properties as (
