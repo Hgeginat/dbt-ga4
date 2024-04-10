@@ -15,7 +15,7 @@ with group1 as (
    
     group by 1,2,3,4,5
 )
-select * from group1
+select * from group1 where sessiontimesec > 0
 
 -- include_user_properties_market as (
 --     select
