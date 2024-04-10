@@ -1,19 +1,19 @@
 with group1 as (
     select 
-        session_key as session_key,
-        event_date_dt as date,
-        user_key as user_key,
-        user_pseudo_id,
-        -- event_name as event_name,
-        device_operating_system,
-        sum((engagement_time_msec))/1000 as engagement_time_sec,
-        min (event_timestamp) as first_event_timestamp,
-        max(event_timestamp) as last_event_timestamp,
-        (max(event_timestamp)- min(event_timestamp))/1000000 as sessiontimesec
+        session_key as session_key
+        -- event_date_dt as date,
+        -- user_key as user_key,
+        -- user_pseudo_id,
+        -- -- event_name as event_name,
+        -- device_operating_system,
+        -- sum((engagement_time_msec))/1000 as engagement_time_sec,
+        -- min (event_timestamp) as first_event_timestamp,
+        -- max(event_timestamp) as last_event_timestamp,
+        -- (max(event_timestamp)- min(event_timestamp))/1000000 as sessiontimesec
 
     from {{ref('stg_ga4__events')}} 
-   
-    group by 1,2,3,4,5
+   group by 1
+    -- group by 1,2,3,4,5
 )
 select * from group1
 -- select * from group1 where sessiontimesec > 0 and user_pseudo_id ='0D8AA365C35D49E5ADCC711B660C2C63'
