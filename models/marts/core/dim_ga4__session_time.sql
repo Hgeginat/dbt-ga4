@@ -14,8 +14,8 @@ with group1 as (
     group by 1,2,3,4
    
 )
-select * from group1
-
+select * from group1 where sessiontimesec > 0
+ 
 -- select * from group1 where sessiontimesec > 0 and user_pseudo_id ='0D8AA365C35D49E5ADCC711B660C2C63'
 
 -- include_user_properties_market as (
