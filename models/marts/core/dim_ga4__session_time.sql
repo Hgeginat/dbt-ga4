@@ -4,11 +4,11 @@ with group1 as (
         event_date_dt as date,
         -- user_key as user_key,
         user_pseudo_id,
-        device_operating_system
+        device_operating_system,
         -- sum((engagement_time_msec))/1000 as engagement_time_sec,
-        -- min (event_timestamp) as first_event_timestamp,
-        -- max(event_timestamp) as last_event_timestamp,
-        -- (max(event_timestamp)- min(event_timestamp))/1000000 as sessiontimesec
+        min (event_timestamp) as first_event_timestamp,
+        max(event_timestamp) as last_event_timestamp,
+        (max(event_timestamp)- min(event_timestamp))/1000000 as sessiontimesec
 
     from {{ref('stg_ga4__events')}} 
     group by 1,2,3,4
