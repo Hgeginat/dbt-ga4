@@ -19,7 +19,7 @@ second_part_data AS (
     device_operating_system,
     MIN(event_date_dt) AS first_time_seen
   FROM first_part_data
-  WHERE ga_session_number = 1
+--   WHERE ga_session_number = 1
   GROUP BY 1, 2, 3
 ),
 
