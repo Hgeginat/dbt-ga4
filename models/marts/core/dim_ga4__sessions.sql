@@ -2,9 +2,9 @@
 with session_start_dims as (
     select 
         session_key,
-        page_location as landing_page,
-        page_hostname as landing_page_hostname,
-        page_referrer as landing_page_referrer,
+        user_key,
+        user_pseudo_id,
+        event_date_dt as date,
         geo_continent,
         geo_country,
         geo_region,
@@ -32,28 +32,33 @@ with session_start_dims as (
         traffic_source_name,
         traffic_source_medium,
         traffic_source_source,
+        ga_session_id,
+        ga_session_number,
     from {{ref('stg_ga4__sessions_first_session_start_event')}}
 ),
-join_traffic_source as (
-    select 
-        session_start_dims.*,
-        session_source as source,
-        session_medium as medium,
-        session_campaign as campaign,
-        session_content as content,
-        session_term as term,
-        session_default_channel_grouping as default_channel_grouping
-    from session_start_dims
-    left join {{ref('stg_ga4__sessions_traffic_sources')}} using (session_key)
-),
+
 include_session_properties as (
     select 
-        * 
-    from join_traffic_source
+         session_start_dims.*,
+         session_properties.session_engaged
+    from session_start_dims
     {% if var('derived_session_properties', false) %}
     -- If derived session properties have been assigned as variables, join them on the session_key
-    left join {{ref('stg_ga4__derived_session_properties')}} using (session_key)
+    left join {{ref('stg_ga4__derived_session_properties')}} as session_properties using (session_key)
+    {% endif %}
+),
+include_user_properties as (
+    select 
+        include_session_properties.*,
+        user_properties.logged_in,
+        user_properties.is_paired,
+        user_properties.polestar_market,
+        user_properties.first_open_time
+    from include_session_properties
+    {% if var('user_properties', false) %}
+    -- If user properties have been assigned as variables, join them on the user_key
+    left join {{ref('stg_ga4__user_properties')}} as user_properties using (user_key)
     {% endif %}
 )
 
-select * from include_session_properties
+select * from include_user_properties

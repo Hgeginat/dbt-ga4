@@ -6,7 +6,9 @@ with first_last_event as (
     select
         user_key,
         FIRST_VALUE(event_key) OVER (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS first_event,
-        LAST_VALUE(event_key) OVER (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_event
+        LAST_VALUE(event_key) OVER (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_event,
+        FIRST_VALUE(event_timestamp) OVER (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS first_event_timestamp,
+        LAST_VALUE(event_timestamp) OVER (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_event_timestamp
     from {{ref('stg_ga4__events')}}
     where user_key is not null --remove users with privacy settings enabled
 ),
@@ -14,7 +16,11 @@ events_by_user_key as (
     select distinct
         user_key,
         first_event,
-        last_event
+        last_event,
+        first_event_timestamp,
+        last_event_timestamp,
+        (last_event_timestamp-first_event_timestamp)/1000 as session_time
+        
     from first_last_event
 ),
 events_joined as (
@@ -38,11 +44,11 @@ events_joined as (
         events_first.device_language as first_device_language,
         events_first.device_is_limited_ad_tracking as first_device_is_limited_ad_tracking,
         events_first.device_time_zone_offset_seconds as first_device_time_zone_offset_seconds,
-        events_first.device_browser as first_device_browser,
-        events_first.device_browser_version as first_device_browser_version,
+        --events_first.device_browser as first_device_browser,
+        --events_first.device_browser_version as first_device_browser_version,
         events_first.device_web_info_browser as first_device_web_info_browser,
         events_first.device_web_info_browser_version as first_device_web_info_browser_version,
-        events_first.device_web_info_hostname as first_device_web_info_hostname,
+        --events_first.device_web_info_hostname as first_device_web_info_hostname,
         events_first.traffic_source_name as first_traffic_source_name,
         events_first.traffic_source_medium as first_traffic_source_medium,
         events_first.traffic_source_source as first_traffic_source_source,
@@ -64,11 +70,11 @@ events_joined as (
         events_last.device_language as last_device_language,
         events_last.device_is_limited_ad_tracking as last_device_is_limited_ad_tracking,
         events_last.device_time_zone_offset_seconds as last_device_time_zone_offset_seconds,
-        events_last.device_browser as last_device_browser,
-        events_last.device_browser_version as last_device_browser_version,
+        --events_last.device_browser as last_device_browser,
+        --events_last.device_browser_version as last_device_browser_version,
         events_last.device_web_info_browser as last_device_web_info_browser,
         events_last.device_web_info_browser_version as last_device_web_info_browser_version,
-        events_last.device_web_info_hostname as last_device_web_info_hostname,
+        --events_last.device_web_info_hostname as last_device_web_info_hostname,
         events_last.traffic_source_name as last_traffic_source_name,
         events_last.traffic_source_medium as last_traffic_source_medium,
         events_last.traffic_source_source as last_traffic_source_source,
