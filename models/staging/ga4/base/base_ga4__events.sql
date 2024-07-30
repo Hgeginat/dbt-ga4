@@ -150,7 +150,7 @@ renamed as (
         platform,
         ecommerce,
         items,
-        -- collected_traffic_source,
+        collected_traffic_source,
         (case when (is_active_user = true) then 1 else 0 end) as active_user_index,
         {{ ga4.unnest_key('event_params', 'ga_session_id', 'int_value') }},
         {{ ga4.unnest_key('event_params', 'ga_session_number',  'int_value') }},
