@@ -84,12 +84,12 @@ include_derived_session_properties as (
 ),
 app_events as (
     select 
+        event_date_dt,
         event_name,
         content_type,
         item_category,
         item_id,
         {{ga4.car_control_category('content_type')}} as car_control_category,
-        event_date_dt as date,
         polestar_market,
         logged_in,
         is_paired,
