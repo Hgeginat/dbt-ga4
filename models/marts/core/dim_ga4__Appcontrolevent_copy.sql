@@ -58,6 +58,15 @@ with events_base as (
         (select value.string_value from unnest(user_properties) where key = 'is_paired') as is_paired
     from {{ref('stg_ga4__events')}}
     where event_name like 'select_content'
+
+    {% if is_incremental() %}
+
+        {% if var('static_incremental_days', false ) %}
+            and parse_date('%Y%m%d', _TABLE_SUFFIX) in ({{ partitions_to_replace | join(',') }})
+        {% else %}
+            and parse_date('%Y%m%d',_TABLE_SUFFIX) >= _dbt_max_partition
+        {% endif %}
+    {% endif %}
 ),
 
 -- returning all the values of the session_properties 
