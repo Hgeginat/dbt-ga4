@@ -38,6 +38,7 @@
 {% endif %}
 
 
+
 with events_base as (
     select 
         event_date_dt, 
