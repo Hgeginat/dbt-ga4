@@ -59,12 +59,19 @@ with events_base as (
     from {{ref('stg_ga4__events')}}
     where event_name like 'select_content'
 
+     --  from `polestar-explore`.`analytics_200752076`.`stg_ga4__events'*`
+    --   where _table_suffix not like '%intraday%' and cast( _table_suffix as int64) >= 20200820
+
+    -- If the process is incremental (i.e., is_incremental() returns true).
+    -- If static_incremental_days variable  is provided, it filters data based on a list of specific dates (partitions_to_replace) (see above)
+    -- Otherwise, it filters data based on the maximum event date (_dbt_max_partition) already processed, ensuring only new data is included.
+
     {% if is_incremental() %}
 
         {% if var('static_incremental_days', false ) %}
-            and parse_date('%Y%m%d', _TABLE_SUFFIX) in ({{ partitions_to_replace | join(',') }})
+            and event_date_dt in ({{ partitions_to_replace | join(',')}})
         {% else %}
-            and parse_date('%Y%m%d',_TABLE_SUFFIX) >= _dbt_max_partition
+            and event_date_dt >= _dbt_max_partition
         {% endif %}
     {% endif %}
 ),
