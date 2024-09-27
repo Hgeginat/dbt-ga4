@@ -12,7 +12,7 @@
             materialized = 'incremental',
             incremental_strategy = 'insert_overwrite',
             partition_by={
-                "field": "event_date_dt",
+                "field": "date",
                 "data_type": "date",
             },
             partitions = partitions_to_replace,
