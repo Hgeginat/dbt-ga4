@@ -8,7 +8,7 @@ WITH first_part_data AS (
     is_car_owner,  
     CASE when is_paired = 'true' THEN 1 ELSE 0 END as is_paired,                                                                                                                                                                                                                                                                                                                                                   
     device_operating_system
-  FROM {{ref('dim_ga4__Funnel')}}
+  FROM {{ref('dim_ga4__Funnel_incr')}}
 ),
 
 second_part_data AS (
