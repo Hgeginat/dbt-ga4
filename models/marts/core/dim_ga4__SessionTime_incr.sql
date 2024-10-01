@@ -55,9 +55,9 @@ with start as (
      {% if is_incremental() %}
 
         {% if var('static_incremental_days', false ) %}
-            and date in ({{ partitions_to_replace | join(',')}})
+            and event_date_dt in ({{ partitions_to_replace | join(',')}})
         {% else %}
-            and date >= _dbt_max_partition
+            and event_date_dt >= _dbt_max_partition
         {% endif %}
     {% endif %}
    
