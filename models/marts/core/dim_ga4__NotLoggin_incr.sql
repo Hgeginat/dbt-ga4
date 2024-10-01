@@ -53,9 +53,9 @@ with screen_name_events2 as (
     {% if is_incremental() %}
 
         {% if var('static_incremental_days', false ) %}
-            and event_date_dt in ({{ partitions_to_replace | join(',')}})
+            where event_date_dt in ({{ partitions_to_replace | join(',')}})
         {% else %}
-            and event_date_dt >= _dbt_max_partition
+            where event_date_dt >= _dbt_max_partition
         {% endif %}
     {% endif %}
 ),
