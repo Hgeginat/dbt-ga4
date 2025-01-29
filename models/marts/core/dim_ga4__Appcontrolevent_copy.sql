@@ -3,9 +3,9 @@
 -- It iterates static_incremental_days times and constructs a list of SQL expressions representing dates in the past, using date_sub to subtract days from the current date.
 
 {% if var('static_incremental_days', false ) %} -- if true, this part of the code will be running only if the variable static_incremental_days exist. if it does not exist, the default value of it will be false. Therefore, the code in the block will not run
-    {% set partitions_to_replace = [] %} --  Initializes an empty list named partitions_to_replace aim :  This list is intended to store partition values for incremental loading.
+    {% set partitions_to_replace = [] %} --  Initializes an empty list named partitions_to_replace aim :  This list is intended to store partition values (=dates basically) for incremental loading.
 
-    {% for i in range(var('static_incremental_days')) %}   -- loop for 0 to incrementalsday-1
+    {% for i in range(var('static_incremental_days')) %}   -- loop for 0 to incrementalsday-1 () (#if static_incremental_days = 3 , 3 dates will be added to the list (based on the lasted data available in BQ))
         {% set partitions_to_replace = partitions_to_replace.append('date_sub(current_date, interval ' + (i+1)|string + ' day)') %} -- getting a list of date where we remove the amount of days from 0 to incrementals days-1
     {% endfor %}
 
