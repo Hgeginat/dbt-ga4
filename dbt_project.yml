@@ -19,7 +19,7 @@ vars:
    dataset: "analytics_200752076"
    start_date: "20200820" # Defines the earliest GA4 event _TABLE_SUFFIX to load into base events model.
    frequency: "daily" # daily|streaming defaults to daily. If you only use the streaming export, use this setting to only get the streaming data.
-   static_incremental_days: 3 # Number of days to scan and reprocess on each run
+   static_incremental_days: 18 # Number of days to scan and reprocess on each run
 
 # Query parameter exclusions
 # You can remove specific query parameters from the page_location by listing them here
@@ -53,7 +53,8 @@ vars:
        value_type: "string_value"
     
 
-#Session properties can be defined here. # Review needed session properties to be added in here so displayed in derived_session_properties
+#Session properties can be defined here. # Review needed session properties to be added in here so displayed in derived_session_properties to be used in the rest of the model (cleanest way to work) but very expensive 
+# as the session properties cannot be splitted by date
    derived_session_properties:
      - event_parameter: "item_category"
        session_property_name: "item_category"
