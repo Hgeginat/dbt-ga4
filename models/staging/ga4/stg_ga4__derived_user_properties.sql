@@ -26,3 +26,5 @@ SELECT DISTINCT
     {% endfor %}
 FROM unnest_user_properties
 WINDOW user_window AS (PARTITION BY user_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)
+
+
