@@ -70,7 +70,6 @@ include_user_properties_market as (
 )
 
 
-
 select * from include_user_properties_market  where sessiontimesec > 0
      {% if is_incremental() %}
 
