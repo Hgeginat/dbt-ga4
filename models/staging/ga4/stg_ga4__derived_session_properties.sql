@@ -1,5 +1,4 @@
 -- looking into dbt_project to see if the variable exist
-
 {{ config(
   enabled = true if var('derived_session_properties', false) else false,
   materialized = "table"
@@ -16,7 +15,8 @@ unnest_event_params as
 (
     select 
         session_key,
-        event_timestamp
+        event_timestamp,
+        event_name
         {% for sp in var('derived_session_properties', []) %}
             {% if sp.user_property %}
                 , {{ ga4.unnest_key('user_properties', sp.user_property, sp.value_type) }}
@@ -33,9 +33,12 @@ unnest_event_params as
  -- It iterates over the properties specified in derived_session_properties, applying the window function accordingly.
  
 SELECT DISTINCT
-    session_key
+    session_key,
+    CASE WHEN MAX(CASE WHEN event_name = 'select_content' THEN 1 ELSE 0 END) OVER (PARTITION BY session_key) = 1 THEN 'yes' ELSE 'no' END AS Tracking_accepted
     {% for sp in var('derived_session_properties', []) %}
         , LAST_VALUE({{ sp.user_property | default(sp.event_parameter) }} IGNORE NULLS) OVER (session_window) AS {{ sp.session_property_name }}
     {% endfor %}
 FROM unnest_event_params
 WINDOW session_window AS (PARTITION BY session_key ORDER BY event_timestamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)
+ 
+   
