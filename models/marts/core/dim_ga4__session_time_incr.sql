@@ -75,9 +75,9 @@ select * from include_user_properties_market  where sessiontimesec > 0
      {% if is_incremental() %}
 
         {% if var('static_incremental_days', false ) %}
-            and event_date_dt in ({{ partitions_to_replace | join(',')}})
+            and date in ({{ partitions_to_replace | join(',')}})
         {% else %}
-            and event_date_dt >= _dbt_max_partition
+            and date >= _dbt_max_partition
         {% endif %}
     {% endif %}
    
